@@ -7,8 +7,10 @@
 		"start": "vercel dev",
 		"deploy": "vercel deploy --prod"
 	},
-	"devDependencies": {},
-	"dependencies": {
+	"devDependencies": {
 		"@types/node": "^18.11.18"
+	},
+	"dependencies": {
+		"@supabase/supabase-js": "^2.10.0"
 	}
 }
