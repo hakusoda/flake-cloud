@@ -1,0 +1,14 @@
+{
+	"name": "flake-cloud",
+	"version": "1.0.0",
+	"license": "MIT",
+	"scripts": {
+		"pull": "vercel pull",
+		"start": "vercel dev",
+		"deploy": "vercel deploy --prod"
+	},
+	"devDependencies": {},
+	"dependencies": {
+		"@types/node": "^18.11.18"
+	}
+}
