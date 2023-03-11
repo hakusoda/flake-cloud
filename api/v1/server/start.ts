@@ -3,7 +3,7 @@ import supabase from '../../../src/supabase';
 import { json, error } from '../../../src/helpers/response';
 export const config = { runtime: 'edge' };
 export default POST(async ({ headers }) => {
-	const jobId = headers.get('roblox-id2');
+	const jobId = headers.get('roblox-job');
 	const placeId = headers.get('roblox-id');
 	if (!jobId || !placeId)
 		return error(400, 'INVALID_ID');
@@ -16,11 +16,12 @@ export default POST(async ({ headers }) => {
 	if (!instance)
 		return error(400, 'INVALID_KEY');
 
+	// TODO: roblox server validation
 	const ip = headers.get('x-real-ip') as string; 
 	await supabase.from('active_servers').delete().eq('server_ip', ip);
 
 	const { data } = await supabase.from('active_servers').insert({
-		job_id: parseInt(jobId),
+		job_id: jobId,
 		players: 0,
 		place_id: parseInt(placeId),
 		server_ip: ip,

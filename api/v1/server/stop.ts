@@ -3,11 +3,6 @@ import supabase from '../../../src/supabase';
 import { error } from '../../../src/helpers/response';
 export const config = { runtime: 'edge' };
 export default POST(async ({ headers }) => {
-	const jobId = headers.get('roblox-id2');
-	const placeId = headers.get('roblox-id');
-	if (!jobId || !placeId)
-		return error(400, 'INVALID_ID');
-
 	const key = headers.get('x-access-key');
 	if (!key)
 		return error(400, 'INVALID_KEY');

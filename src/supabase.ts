@@ -6,7 +6,7 @@ export interface Database {
 			active_servers: {
 				Row: {
 					id: number
-					job_id: number
+					job_id: string
 					players: number
 					place_id: number
 					server_ip: string
@@ -14,7 +14,7 @@ export interface Database {
 					instance_id: number
 				}
 				Insert: {
-					job_id: number
+					job_id: string
 					players: number
 					place_id: number
 					server_ip: string
