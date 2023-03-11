@@ -1,2 +1,2 @@
 import { json, Handler } from 'sift';
-export default (({ headers, referrer }) => json({ headers, referrer })) satisfies Handler
+export default (({ headers }, c) => json({ ip: c.remoteAddr, headers: Object.fromEntries(headers.entries()) })) satisfies Handler
