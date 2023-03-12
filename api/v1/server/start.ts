@@ -8,7 +8,8 @@ export default POST(async request => {
 
 	const jobId = headers.get('roblox-job');
 	const placeId = headers.get('roblox-id');
-	if (!jobId || !placeId)
+	const universeId = headers.get('roblox-uni');
+	if (!jobId || !placeId || !universeId)
 		return error(400, 'INVALID_ID');
 
 	const key = headers.get('x-access-key');
@@ -30,6 +31,7 @@ export default POST(async request => {
 		place_id: parseInt(placeId),
 		server_ip: ip,
 		instance_id: instance.id,
+		universe_id: parseInt(universeId),
 		flake_version: version
 	}).select('id');
 	if (!data)

@@ -13,6 +13,7 @@ export interface Database {
 					server_ip: string
 					created_at: string
 					instance_id: number
+					universe_id: number
 					flake_version?: string
 				}
 				Insert: {
@@ -21,6 +22,7 @@ export interface Database {
 					place_id: number
 					server_ip: string
 					instance_id: number
+					universe_id: number
 					flake_version?: string
 				}
 				Update: {

@@ -8,7 +8,8 @@ export default POST(async request => {
 
 	const jobId = headers.get('roblox-job');
 	const placeId = headers.get('roblox-id');
-	if (!jobId || !placeId)
+	const universeId = headers.get('roblox-uni');
+	if (!jobId || !placeId || !universeId)
 		return error(400, 'INVALID_ID');
 
 	const key = headers.get('x-access-key');
@@ -22,9 +23,14 @@ export default POST(async request => {
 	const ip = headers.get('x-real-ip') as string;
 
 	const { players }: UpdateBody = await request.json();
-	const data = await supabase.from('active_servers').update({
-		players
-	}).eq('instance_id', instance.id).eq('server_ip', ip).eq('job_id', jobId).eq('place_id', placeId);
+	const data = await supabase
+		.from('active_servers')
+		.update({ players })
+		.eq('job_id', jobId)
+		.eq('place_id', placeId)
+		.eq('server_ip', ip)
+		.eq('universe_id', universeId)
+		.eq('instance_id', instance.id);
 	if (data.error)
 		return error(500, data.error.message);
 
