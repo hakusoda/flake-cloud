@@ -12,6 +12,7 @@ export interface Database {
 					server_ip: string
 					created_at: string
 					instance_id: number
+					flake_version?: string
 				}
 				Insert: {
 					job_id: string
@@ -19,8 +20,11 @@ export interface Database {
 					place_id: number
 					server_ip: string
 					instance_id: number
+					flake_version?: string
 				}
-				Update: {}
+				Update: {
+					players: number
+				}
 			}
 			cloud_instances: {
 				Row: {

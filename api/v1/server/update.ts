@@ -18,24 +18,14 @@ export default POST(async request => {
 	if (!instance)
 		return error(400, 'INVALID_KEY');
 
-	// TODO: roblox server validation
-	const ip = headers.get('x-real-ip') as string; 
-	await supabase.from('active_servers').delete().eq('server_ip', ip);
+	const ip = headers.get('x-real-ip') as string;
 
-	const { players, version }: { players?: number, version?: string } = await request.json();
-	const { data } = await supabase.from('active_servers').insert({
-		job_id: jobId,
-		players: players || 0,
-		place_id: parseInt(placeId),
-		server_ip: ip,
-		instance_id: instance.id,
-		flake_version: version
-	}).select('id');
-	if (!data)
+	const { players }: { players: number } = await request.json();
+	const data = await supabase.from('active_servers').update({
+		players
+	}).eq('id', instance.id).eq('server_ip', ip).eq('job_id', jobId).eq('place_id', placeId);
+	if (!data.error)
 		return error(500, 'UNKNOWN_ERROR');
 
-	return json({
-		id: data[0].id,
-		success: true
-	}, 200, 3600);
+	return json({ success: true });
 });
