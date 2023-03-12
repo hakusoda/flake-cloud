@@ -23,9 +23,9 @@ export default POST(async request => {
 	const { players }: { players: number } = await request.json();
 	const data = await supabase.from('active_servers').update({
 		players
-	}).eq('id', instance.id).eq('server_ip', ip).eq('job_id', jobId).eq('place_id', placeId);
-	if (!data.error)
-		return error(500, 'UNKNOWN_ERROR');
+	}).eq('instance_id', instance.id).eq('server_ip', ip).eq('job_id', jobId).eq('place_id', placeId);
+	if (data.error)
+		return error(500, data.error.message);
 
 	return json({ success: true });
 });
