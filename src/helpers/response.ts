@@ -14,7 +14,7 @@ export function json(json: any, status: number = 200, maxAge?: number) {
 
 export function error(code: number, id: string) {
 	return json({
-		error: true,
+		success: false,
 		error_id: id
 	}, code);
 }

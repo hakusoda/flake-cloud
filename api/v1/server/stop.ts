@@ -1,6 +1,6 @@
 import { POST } from '../../../src/helpers';
 import supabase from '../../../src/supabase';
-import { error } from '../../../src/helpers/response';
+import { json, error } from '../../../src/helpers/response';
 export const config = { runtime: 'edge' };
 export default POST(async ({ headers }) => {
 	const key = headers.get('x-access-key');
@@ -14,5 +14,5 @@ export default POST(async ({ headers }) => {
 	const ip = headers.get('x-real-ip') as string; 
 	await supabase.from('active_servers').delete().eq('server_ip', ip);
 
-	return new Response();
+	return json({ success: true });
 });

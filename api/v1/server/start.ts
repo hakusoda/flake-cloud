@@ -2,7 +2,9 @@ import { POST } from '../../../src/helpers';
 import supabase from '../../../src/supabase';
 import { json, error } from '../../../src/helpers/response';
 export const config = { runtime: 'edge' };
-export default POST(async ({ headers }) => {
+export default POST(async request => {
+	const { headers } = request;
+
 	const jobId = headers.get('roblox-job');
 	const placeId = headers.get('roblox-id');
 	if (!jobId || !placeId)
@@ -20,9 +22,10 @@ export default POST(async ({ headers }) => {
 	const ip = headers.get('x-real-ip') as string; 
 	await supabase.from('active_servers').delete().eq('server_ip', ip);
 
+	const { players }: { players: number } = await request.json();
 	const { data } = await supabase.from('active_servers').insert({
 		job_id: jobId,
-		players: 0,
+		players: players || 0,
 		place_id: parseInt(placeId),
 		server_ip: ip,
 		instance_id: instance.id
@@ -31,6 +34,7 @@ export default POST(async ({ headers }) => {
 		return error(500, 'UNKNOWN_ERROR');
 
 	return json({
-		id: data[0].id
+		id: data[0].id,
+		success: true
 	}, 200, 3600);
 });
