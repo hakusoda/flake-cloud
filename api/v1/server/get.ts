@@ -1,7 +1,6 @@
 import { POST } from '../../../src/helpers';
 import supabase from '../../../src/supabase';
 import { json, error } from '../../../src/helpers/response';
-import type { StartBody } from '../../../src/types';
 export const config = { runtime: 'edge' };
 export default POST(async request => {
 	const { headers } = request;
@@ -19,24 +18,16 @@ export default POST(async request => {
 	if (!instance)
 		return error(400, 'INVALID_KEY');
 
-	// TODO: roblox server validation
-	const ip = headers.get('x-real-ip') as string; 
-	await supabase.from('active_servers').delete().eq('server_ip', ip);
+	const ip = headers.get('x-real-ip') as string;
+	const data = await supabase
+		.from('active_servers')
+		.select('*')
+		.eq('job_id', jobId)
+		.eq('place_id', placeId)
+		.eq('server_ip', ip)
+		.eq('instance_id', instance.id);
+	if (data.error)
+		return error(500, data.error.message);
 
-	const { players, version }: StartBody = await request.json();
-	const { data } = await supabase.from('active_servers').insert({
-		job_id: jobId,
-		players: players || [],
-		place_id: parseInt(placeId),
-		server_ip: ip,
-		instance_id: instance.id,
-		flake_version: version
-	}).select('id');
-	if (!data)
-		return error(500, 'UNKNOWN_ERROR');
-
-	return json({
-		id: data[0].id,
-		success: true
-	}, 200, 3600);
+	return json({ data: data.data[0], success: true });
 });

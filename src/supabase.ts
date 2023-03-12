@@ -1,3 +1,4 @@
+import type { Player } from './types';
 import { createClient } from '@supabase/supabase-js';
 export interface Database {
 	flake: {
@@ -7,7 +8,7 @@ export interface Database {
 				Row: {
 					id: number
 					job_id: string
-					players: number
+					players: Player[]
 					place_id: number
 					server_ip: string
 					created_at: string
@@ -16,14 +17,14 @@ export interface Database {
 				}
 				Insert: {
 					job_id: string
-					players: number
+					players: Player[]
 					place_id: number
 					server_ip: string
 					instance_id: number
 					flake_version?: string
 				}
 				Update: {
-					players: number
+					players: Player[]
 				}
 			}
 			cloud_instances: {
