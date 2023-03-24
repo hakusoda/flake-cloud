@@ -1,7 +1,7 @@
 import { POST } from '../../../src/helpers';
 import supabase from '../../../src/supabase';
 import { json, error } from '../../../src/helpers/response';
-export const config = { runtime: 'edge' };
+export const config = { runtime: 'edge', regions: ['iad1'] };
 export default POST(async request => {
 	const { headers } = request;
 

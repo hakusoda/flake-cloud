@@ -2,7 +2,7 @@ import { POST } from '../../../src/helpers';
 import supabase from '../../../src/supabase';
 import { json, error } from '../../../src/helpers/response';
 import type { StartBody } from '../../../src/types';
-export const config = { runtime: 'edge' };
+export const config = { runtime: 'edge', regions: ['iad1'] };
 export default POST(async request => {
 	const { headers } = request;
 
